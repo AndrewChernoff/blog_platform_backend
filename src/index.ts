@@ -1,11 +1,10 @@
 import express, { Express, Request, Response } from "express";
 import bodyParser from "body-parser";
-import jwt from "jsonwebtoken";
-import mongoose, { Model } from "mongoose";
-import { registerValidation } from "./validations/registerValidation";
-import { validationResult } from "express-validator";
-import bcrypt from "bcryptjs";
-import { User } from "./models/user";
+import mongoose from "mongoose";
+import { postValidation, registerValidation } from "./validations/registerValidation";
+import checkAuth from "./utils/checkAuth";
+import * as AuthController from './controllers/auth-controller'
+import * as PostsController from './controllers/posts-controller'
 
 mongoose
   .connect(
@@ -24,56 +23,17 @@ app.use(
 );
 
 app.get("/", (req: Request, res: Response) => {
-  res.send("Express + TypeScript Server fghfghfgjgfhg");
+  res.send("Express + TypeScript Server");
 });
 
-app.post(
-  "/auth/login",
-  registerValidation,
-  async (req: Request, res: Response) => {
-    try {
-      const errors = validationResult(req);
+app.post("/auth/register", registerValidation, AuthController.register);
+app.post("/auth/login", AuthController.login)
+app.get('/auth/me', checkAuth, AuthController.getMe)
 
-      if (!errors.isEmpty()) {
-        return res.status(400).json(errors.array());
-      }
-
-      const salt = await bcrypt.genSalt(10);
-
-      const hash = await bcrypt.hash(req.body.password, salt);
-
-      const doc = new User({
-        fullName: req.body.fullName,
-        email: req.body.email,
-        avatarUrl: req.body.avatarUrl,
-        passwordHash: hash,
-      });
-
-      const user: any = await doc.save();
-
-      const token = jwt.sign(
-        {
-        _id: user._id,
-        },
-      'secret register',
-      {
-        expiresIn: '30d',
-      }
-      )
-
-      const {passwordHash, ...userData} = user._doc
-
-      res.json({...userData, token});
-    
-    } catch (error) {
-      console.log(error);
-
-      res.status(400).json({
-        message: "Couldn't register",
-      });
-    }
-  }
-);
+app.get('/posts', checkAuth, postValidation, PostsController.getAll)
+app.post('/posts', checkAuth, postValidation, PostsController.create)
+app.get('/posts/:id', checkAuth, postValidation, PostsController.getOne)
+app.patch('/posts/:id', checkAuth, PostsController.updateOne)
 
 app.listen(4444, () => {
   console.log(`[server]: Server is running at http://localhost:${4444}`);
