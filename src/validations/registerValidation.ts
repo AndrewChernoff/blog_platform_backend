@@ -8,6 +8,11 @@ export const registerValidation = [
     body('avatarUrl').optional().isURL(),
 ]
 
+export const logInValidation = [
+    body ('email').isEmail(),
+    body('password').isLength({min: 5}),
+]
+
 export const postValidation = [
     body('title').isLength({min: 3}),
     body('text').isLength({min: 3}),

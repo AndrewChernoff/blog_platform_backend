@@ -7,11 +7,11 @@ export const create = async(req: Request, res: Response) => {
 
     try {
 
-        const errors = validationResult(req);
+        /* const errors = validationResult(req);
 
         if (!errors.isEmpty()) {
             return res.status(400).json(errors.array());
-        }
+        } */
 
         const doc = new Post({
             title: req.body.title,

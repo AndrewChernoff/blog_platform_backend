@@ -11,13 +11,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateOne = exports.deleteOne = exports.getOne = exports.getAll = exports.create = void 0;
 const post_1 = require("../models/post");
-const express_validator_1 = require("express-validator");
 const create = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const errors = (0, express_validator_1.validationResult)(req);
+        /* const errors = validationResult(req);
+
         if (!errors.isEmpty()) {
             return res.status(400).json(errors.array());
-        }
+        } */
         const doc = new post_1.Post({
             title: req.body.title,
             text: req.body.text,

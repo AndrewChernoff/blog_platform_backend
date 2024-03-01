@@ -24,16 +24,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getMe = exports.login = exports.register = void 0;
-const express_validator_1 = require("express-validator");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const user_1 = require("../models/user");
 const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const errors = (0, express_validator_1.validationResult)(req);
-        if (!errors.isEmpty()) {
-            return res.status(400).json(errors.array());
-        }
+        /*  const errors = validationResult(req);
+   
+         if (!errors.isEmpty()) {
+           return res.status(400).json(errors.array());
+         } */
         const salt = yield bcryptjs_1.default.genSalt(10);
         const hash = yield bcryptjs_1.default.hash(req.body.password, salt);
         const doc = new user_1.User({
@@ -61,6 +61,11 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.register = register;
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        /* const errors = validationResult(req);
+  
+        if (!errors.isEmpty()) {
+          return res.status(400).json(errors.array());
+        } */
         const user = yield user_1.User.findOne({ email: req.body.email });
         if (!user) {
             return res.status(404).json({ message: 'User is not found' });
@@ -82,7 +87,6 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.login = login;
 const getMe = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        console.log(req.params.userId);
         const userId = req.params.userId;
         const user = yield user_1.User.findById(userId);
         if (!user) {
