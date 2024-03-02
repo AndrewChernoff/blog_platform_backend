@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import { logInValidation, postValidation, registerValidation } from "./validations/registerValidation";
 import checkAuth from "./utils/checkAuth";
 import multer from 'multer';
+import cors from 'cors';
 import * as AuthController from './controllers/auth-controller';
 import * as PostsController from './controllers/posts-controller';
 import handleValidationError from "./utils/handleValidationError";
@@ -16,6 +17,9 @@ mongoose
   .catch((error) => console.log("Failed: " + error));
 
 const app: Express = express();
+
+app.use(cors()); 
+
 
 const storage = multer.diskStorage({
   destination: (_, __, cb) => {
@@ -55,7 +59,7 @@ app.post("/auth/register", registerValidation, handleValidationError, AuthContro
 app.post("/auth/login", logInValidation, handleValidationError, AuthController.login)
 app.get('/auth/me', checkAuth, AuthController.getMe)
 
-app.get('/posts', checkAuth, PostsController.getAll)
+app.get('/posts', /* checkAuth, */ PostsController.getAll)
 app.post('/posts', checkAuth, postValidation, handleValidationError, PostsController.create)
 app.get('/posts/:id', checkAuth, handleValidationError, PostsController.getOne)
 app.patch('/posts/:id', checkAuth, postValidation, handleValidationError, PostsController.updateOne)

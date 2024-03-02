@@ -32,6 +32,7 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const registerValidation_1 = require("./validations/registerValidation");
 const checkAuth_1 = __importDefault(require("./utils/checkAuth"));
 const multer_1 = __importDefault(require("multer"));
+const cors_1 = __importDefault(require("cors"));
 const AuthController = __importStar(require("./controllers/auth-controller"));
 const PostsController = __importStar(require("./controllers/posts-controller"));
 const handleValidationError_1 = __importDefault(require("./utils/handleValidationError"));
@@ -40,6 +41,7 @@ mongoose_1.default
     .then(() => console.log("DB connected"))
     .catch((error) => console.log("Failed: " + error));
 const app = (0, express_1.default)();
+app.use((0, cors_1.default)());
 const storage = multer_1.default.diskStorage({
     destination: (_, __, cb) => {
         cb(null, 'uploads');
@@ -70,7 +72,7 @@ app.get("/", (req, res) => {
 app.post("/auth/register", registerValidation_1.registerValidation, handleValidationError_1.default, AuthController.register);
 app.post("/auth/login", registerValidation_1.logInValidation, handleValidationError_1.default, AuthController.login);
 app.get('/auth/me', checkAuth_1.default, AuthController.getMe);
-app.get('/posts', checkAuth_1.default, PostsController.getAll);
+app.get('/posts', /* checkAuth, */ PostsController.getAll);
 app.post('/posts', checkAuth_1.default, registerValidation_1.postValidation, handleValidationError_1.default, PostsController.create);
 app.get('/posts/:id', checkAuth_1.default, handleValidationError_1.default, PostsController.getOne);
 app.patch('/posts/:id', checkAuth_1.default, registerValidation_1.postValidation, handleValidationError_1.default, PostsController.updateOne);
