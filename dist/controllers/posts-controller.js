@@ -9,15 +9,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateOne = exports.deleteOne = exports.getOne = exports.getAll = exports.create = void 0;
+exports.getLastTags = exports.updateOne = exports.deleteOne = exports.getOne = exports.getAll = exports.create = void 0;
 const post_1 = require("../models/post");
 const create = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        /* const errors = validationResult(req);
-
-        if (!errors.isEmpty()) {
-            return res.status(400).json(errors.array());
-        } */
         const doc = new post_1.Post({
             title: req.body.title,
             text: req.body.text,
@@ -30,7 +25,6 @@ const create = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         res.status(200).json(post);
     }
     catch (error) {
-        console.log(error);
         res.status(500).json({
             message: error,
         });
@@ -94,7 +88,6 @@ const deleteOne = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.deleteOne = deleteOne;
 const updateOne = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        debugger;
         const postId = req.params.id;
         const post = yield post_1.Post.updateOne({
             _id: postId,
@@ -119,3 +112,17 @@ const updateOne = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.updateOne = updateOne;
+const getLastTags = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const posts = yield post_1.Post.find().limit(5).exec();
+        const tags = posts.map((obj) => obj.tags).flat().slice(0, 5);
+        res.json(tags);
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            message: error,
+        });
+    }
+});
+exports.getLastTags = getLastTags;

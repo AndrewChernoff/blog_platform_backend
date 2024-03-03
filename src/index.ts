@@ -63,6 +63,7 @@ app.get('/posts', /* checkAuth, */ PostsController.getAll)
 app.post('/posts', checkAuth, postValidation, handleValidationError, PostsController.create)
 app.get('/posts/:id', checkAuth, handleValidationError, PostsController.getOne)
 app.patch('/posts/:id', checkAuth, postValidation, handleValidationError, PostsController.updateOne)
+app.get('/tags', PostsController.getLastTags)
 
 app.listen(4444, () => {
   console.log(`[server]: Server is running at http://localhost:${4444}`);

@@ -6,13 +6,6 @@ import { Error } from "mongoose";
 export const create = async(req: Request, res: Response) => {
 
     try {
-
-        /* const errors = validationResult(req);
-
-        if (!errors.isEmpty()) {
-            return res.status(400).json(errors.array());
-        } */
-
         const doc = new Post({
             title: req.body.title,
             text: req.body.text,
@@ -25,10 +18,7 @@ export const create = async(req: Request, res: Response) => {
         const post = await doc.save()
 
         res.status(200).json(post)
-    } catch (error) {
-        
-        console.log(error);
-        
+    } catch (error) {        
         res.status(500).json({
             message: error,
           });
@@ -108,7 +98,7 @@ export const deleteOne = async(req: Request, res: Response) => {
 
 export const updateOne = async(req: Request, res: Response) => {
     try {
-        debugger
+        
         const postId = req.params.id
 
         const post = await Post.updateOne(
@@ -137,6 +127,22 @@ export const updateOne = async(req: Request, res: Response) => {
         
         res.status(500).json({
             message: "Couldn't update post",
+          });
+    }
+}
+export const getLastTags = async(req: Request, res: Response) => {
+
+    
+    try {
+        const posts: any = await Post.find().limit(5).exec()
+        
+        const tags = posts.map((obj: { tags: any; }) => obj.tags).flat().slice(0, 5)
+        res.json(tags)
+    } catch (error) {
+        console.log(error);
+        
+        res.status(500).json({
+            message: error,
           });
     }
 }

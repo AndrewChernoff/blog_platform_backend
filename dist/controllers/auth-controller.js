@@ -29,11 +29,6 @@ const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const user_1 = require("../models/user");
 const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        /*  const errors = validationResult(req);
-   
-         if (!errors.isEmpty()) {
-           return res.status(400).json(errors.array());
-         } */
         const salt = yield bcryptjs_1.default.genSalt(10);
         const hash = yield bcryptjs_1.default.hash(req.body.password, salt);
         const doc = new user_1.User({
