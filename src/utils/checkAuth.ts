@@ -10,6 +10,7 @@ export default (req: Request<{userId: string}, {}, {}, {}>, res: Response, next:
         console.log(decoded);
         
         req.params.userId = decoded._id
+        
         next()
     } catch (error) {
         return res.status(403).json({

@@ -34,7 +34,7 @@ exports.create = create;
 const getAll = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const posts = yield post_1.Post.find().populate('user').exec();
-        res.json(posts);
+        res.status(200).json(posts);
     }
     catch (error) {
         console.log(error);
@@ -57,10 +57,9 @@ const getOne = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         if (!post) {
             return res.status(404).send({ message: "Post is not found" });
         }
-        return res.status(400).send(post);
+        return res.status(200).send(post);
     }
     catch (error) {
-        console.log(error);
         res.status(500).json({
             message: error,
         });

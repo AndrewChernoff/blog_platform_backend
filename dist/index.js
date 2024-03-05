@@ -74,7 +74,7 @@ app.post("/auth/login", registerValidation_1.logInValidation, handleValidationEr
 app.get('/auth/me', checkAuth_1.default, AuthController.getMe);
 app.get('/posts', /* checkAuth, */ PostsController.getAll);
 app.post('/posts', checkAuth_1.default, registerValidation_1.postValidation, handleValidationError_1.default, PostsController.create);
-app.get('/posts/:id', checkAuth_1.default, handleValidationError_1.default, PostsController.getOne);
+app.get('/posts/:id', /* checkAuth, */ handleValidationError_1.default, PostsController.getOne);
 app.patch('/posts/:id', checkAuth_1.default, registerValidation_1.postValidation, handleValidationError_1.default, PostsController.updateOne);
 app.get('/tags', PostsController.getLastTags);
 app.listen(4444, () => {

@@ -56,11 +56,6 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.register = register;
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        /* const errors = validationResult(req);
-  
-        if (!errors.isEmpty()) {
-          return res.status(400).json(errors.array());
-        } */
         const user = yield user_1.User.findOne({ email: req.body.email });
         if (!user) {
             return res.status(404).json({ message: 'User is not found' });
