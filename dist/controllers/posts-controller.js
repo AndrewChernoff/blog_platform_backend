@@ -75,7 +75,7 @@ const deleteOne = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         if (!deletedPost) {
             return res.status(404).send({ message: "Post is not found" });
         }
-        return res.status(400).send({ success: true });
+        return res.status(200).send({ success: true });
     }
     catch (error) {
         console.log(error);

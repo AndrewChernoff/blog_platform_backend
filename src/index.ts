@@ -63,6 +63,7 @@ app.get('/auth/me', checkAuth, AuthController.getMe)
 app.get('/posts', /* checkAuth, */ PostsController.getAll)
 app.post('/posts', checkAuth, postValidation, handleValidationError, PostsController.create)
 app.get('/posts/:id', /* checkAuth, */ handleValidationError, PostsController.getOne)
+app.delete('/posts/:id', checkAuth, handleValidationError, PostsController.deleteOne)
 app.patch('/posts/:id', checkAuth, postValidation, handleValidationError, PostsController.updateOne)
 app.get('/tags', PostsController.getLastTags)
 
