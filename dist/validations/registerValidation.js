@@ -16,5 +16,5 @@ exports.postValidation = [
     (0, express_validator_1.body)('title').isLength({ min: 3 }),
     (0, express_validator_1.body)('text').isLength({ min: 3 }),
     (0, express_validator_1.body)('tags').isArray(),
-    (0, express_validator_1.body)('imageUrl').optional().isURL(),
+    (0, express_validator_1.body)('imageUrl').optional().isString(),
 ];

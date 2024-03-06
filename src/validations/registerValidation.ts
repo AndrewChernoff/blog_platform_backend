@@ -17,5 +17,5 @@ export const postValidation = [
     body('title').isLength({min: 3}),
     body('text').isLength({min: 3}),
     body('tags').isArray(),
-    body('imageUrl').optional().isURL(),
+    body('imageUrl').optional().isString(),
 ]

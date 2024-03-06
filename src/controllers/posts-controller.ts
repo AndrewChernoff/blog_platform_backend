@@ -51,7 +51,7 @@ export const getOne = async(req: Request, res: Response) => {
         {
             new: true
           }
-        )
+        ).populate('user')
 
           if (!post) {
             return res.status(404).send({message: "Post is not found"})

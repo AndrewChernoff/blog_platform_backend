@@ -53,7 +53,7 @@ const getOne = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             $inc: { viewsCount: 1 }
         }, {
             new: true
-        });
+        }).populate('user');
         if (!post) {
             return res.status(404).send({ message: "Post is not found" });
         }
