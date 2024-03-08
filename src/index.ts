@@ -1,6 +1,7 @@
 import express, { Express, Request, Response } from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
+import dotenv from "dotenv";
 import { logInValidation, postValidation, registerValidation } from "./validations/registerValidation";
 import checkAuth from "./utils/checkAuth";
 import multer from 'multer';
@@ -9,10 +10,12 @@ import * as AuthController from './controllers/auth-controller';
 import * as PostsController from './controllers/posts-controller';
 import handleValidationError from "./utils/handleValidationError";
 
+dotenv.config();
+
+const DB_adress = process.env.MONGO_DBCONNECT_URI as string
+
 mongoose
-  .connect(
-    "mongodb+srv://whitedrew538:wwwwwwwwww@cluster0.z6b0ju0.mongodb.net/blog?retryWrites=true&w=majority&appName=Cluster0"
-  )
+  .connect(DB_adress)
   .then(() => console.log("DB connected"))
   .catch((error) => console.log("Failed: " + error));
 
@@ -67,6 +70,11 @@ app.delete('/posts/:id', checkAuth, handleValidationError, PostsController.delet
 app.patch('/posts/:id', checkAuth, postValidation, handleValidationError, PostsController.updateOne)
 app.get('/tags', PostsController.getLastTags)
 
-app.listen(4444, () => {
-  console.log(`[server]: Server is running at http://localhost:${4444}`);
+
+
+const port = process.env.PORT;
+
+
+app.listen(port, () => {
+  console.log(`[server]: Server is running at http://localhost:${port}`);
 });
