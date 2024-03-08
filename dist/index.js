@@ -29,6 +29,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const mongoose_1 = __importDefault(require("mongoose"));
+const dotenv_1 = __importDefault(require("dotenv"));
 const registerValidation_1 = require("./validations/registerValidation");
 const checkAuth_1 = __importDefault(require("./utils/checkAuth"));
 const multer_1 = __importDefault(require("multer"));
@@ -36,8 +37,10 @@ const cors_1 = __importDefault(require("cors"));
 const AuthController = __importStar(require("./controllers/auth-controller"));
 const PostsController = __importStar(require("./controllers/posts-controller"));
 const handleValidationError_1 = __importDefault(require("./utils/handleValidationError"));
+dotenv_1.default.config();
+const DB_adress = process.env.MONGO_DBCONNECT_URI;
 mongoose_1.default
-    .connect("mongodb+srv://whitedrew538:wwwwwwwwww@cluster0.z6b0ju0.mongodb.net/blog?retryWrites=true&w=majority&appName=Cluster0")
+    .connect(DB_adress)
     .then(() => console.log("DB connected"))
     .catch((error) => console.log("Failed: " + error));
 const app = (0, express_1.default)();
@@ -79,6 +82,7 @@ app.get('/posts/:id', /* checkAuth, */ handleValidationError_1.default, PostsCon
 app.delete('/posts/:id', checkAuth_1.default, handleValidationError_1.default, PostsController.deleteOne);
 app.patch('/posts/:id', checkAuth_1.default, registerValidation_1.postValidation, handleValidationError_1.default, PostsController.updateOne);
 app.get('/tags', PostsController.getLastTags);
-app.listen(4444, () => {
-    console.log(`[server]: Server is running at http://localhost:${4444}`);
+const port = process.env.PORT;
+app.listen(port, () => {
+    console.log(`[server]: Server is running at http://localhost:${port}`);
 });
