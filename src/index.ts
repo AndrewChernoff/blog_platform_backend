@@ -72,7 +72,7 @@ app.get('/tags', PostsController.getLastTags)
 
 
 
-const port = process.env.PORT;
+const port = process.env.PORT || 4444;
 
 
 app.listen(port, () => {
