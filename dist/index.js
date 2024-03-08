@@ -82,7 +82,7 @@ app.get('/posts/:id', /* checkAuth, */ handleValidationError_1.default, PostsCon
 app.delete('/posts/:id', checkAuth_1.default, handleValidationError_1.default, PostsController.deleteOne);
 app.patch('/posts/:id', checkAuth_1.default, registerValidation_1.postValidation, handleValidationError_1.default, PostsController.updateOne);
 app.get('/tags', PostsController.getLastTags);
-const port = process.env.PORT;
+const port = process.env.PORT || 4444;
 app.listen(port, () => {
     console.log(`[server]: Server is running at http://localhost:${port}`);
 });
