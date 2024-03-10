@@ -33,7 +33,16 @@ const create = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.create = create;
 const getAll = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        const sort = req.query.sort;
         const posts = yield post_1.Post.find().populate('user').exec();
+        if (sort === 'new') {
+            const posts = yield post_1.Post.find().sort({ createdAt: -1 });
+            res.json(posts);
+        }
+        else if (sort === 'popular') {
+            const posts = yield post_1.Post.find().sort({ viewsCount: -1 });
+            res.json(posts);
+        }
         res.status(200).json(posts);
     }
     catch (error) {

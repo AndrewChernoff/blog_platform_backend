@@ -24,8 +24,23 @@ export const create = async(req: Request, res: Response) => {
 }
 
 export const getAll = async(req: Request, res: Response) => {
+
+    
     try {
+        const sort = req.query.sort;
+
         const posts: any = await Post.find().populate('user').exec()
+
+        if (sort === 'new') {
+            const posts = await Post.find().sort({createdAt: -1});
+
+            res.json(posts)
+
+        } else if (sort === 'popular') {
+            const posts = await Post.find().sort({viewsCount: -1});
+
+            res.json(posts)
+        }
 
         res.status(200).json(posts)
     } catch (error) {
