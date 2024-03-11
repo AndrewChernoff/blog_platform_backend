@@ -2,6 +2,7 @@ import express, { Express, Request, Response } from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import fs from 'fs';
 import { logInValidation, postValidation, registerValidation } from "./validations/registerValidation";
 import checkAuth from "./utils/checkAuth";
 import multer from 'multer';
@@ -27,6 +28,9 @@ app.use(cors());
 
 const storage = multer.diskStorage({
   destination: (_, __, cb) => {
+    if(!fs.existsSync('uploads')) {
+      fs.mkdirSync('uploads')
+    }
     cb(null, 'uploads')
   },
   filename: (_, file, cb) => {

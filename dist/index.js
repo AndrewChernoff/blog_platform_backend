@@ -30,6 +30,7 @@ const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const dotenv_1 = __importDefault(require("dotenv"));
+const fs_1 = __importDefault(require("fs"));
 const registerValidation_1 = require("./validations/registerValidation");
 const checkAuth_1 = __importDefault(require("./utils/checkAuth"));
 const multer_1 = __importDefault(require("multer"));
@@ -48,6 +49,9 @@ const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 const storage = multer_1.default.diskStorage({
     destination: (_, __, cb) => {
+        if (!fs_1.default.existsSync('uploads')) {
+            fs_1.default.mkdirSync('uploads');
+        }
         cb(null, 'uploads');
     },
     filename: (_, file, cb) => {
