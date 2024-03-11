@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.create = void 0;
 const comment_1 = require("../models/comment");
+const post_1 = require("../models/post");
 const create = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const doc = new comment_1.Comment({
@@ -19,6 +20,11 @@ const create = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             userId: req.params.userId
         });
         const comment = yield doc.save();
+        yield post_1.Post.findOneAndUpdate({
+            _id: req.body.postId,
+        }, {
+            $inc: { commentsCount: 1 }
+        });
         res.status(200).json(comment);
     }
     catch (error) {
