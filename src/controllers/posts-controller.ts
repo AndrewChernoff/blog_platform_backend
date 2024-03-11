@@ -29,20 +29,25 @@ export const getAll = async(req: Request, res: Response) => {
     try {
         const sort = req.query.sort;
 
-        const posts: any = await Post.find().populate('user').exec()
+//        const posts: any = await Post.find().populate('user').exec()
+        //const posts: any = await Post.find().populate('user', { sort: {createdAt: -1} }).exec()
+        ///  .populate('user' { sort: {createdAt: -1} }).exec()
+
+        //console.log(posts);
+        
 
         if (sort === 'new') {
-            const posts = await Post.find().sort({createdAt: -1});
+            const posts = await Post.find().sort({createdAt: -1}).populate('user').exec();
 
-            res.json(posts)
+            res.status(200).json(posts)
 
         } else if (sort === 'popular') {
-            const posts = await Post.find().sort({viewsCount: -1});
 
-            res.json(posts)
+            const posts = await Post.find().sort({ viewsCount: -1 }).populate('user').exec();
+
+            res.status(200).json(posts)
         }
 
-        res.status(200).json(posts)
     } catch (error) {
         console.log(error);
         

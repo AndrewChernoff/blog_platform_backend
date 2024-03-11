@@ -34,16 +34,18 @@ exports.create = create;
 const getAll = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const sort = req.query.sort;
-        const posts = yield post_1.Post.find().populate('user').exec();
+        //        const posts: any = await Post.find().populate('user').exec()
+        //const posts: any = await Post.find().populate('user', { sort: {createdAt: -1} }).exec()
+        ///  .populate('user' { sort: {createdAt: -1} }).exec()
+        //console.log(posts);
         if (sort === 'new') {
-            const posts = yield post_1.Post.find().sort({ createdAt: -1 });
-            res.json(posts);
+            const posts = yield post_1.Post.find().sort({ createdAt: -1 }).populate('user').exec();
+            res.status(200).json(posts);
         }
         else if (sort === 'popular') {
-            const posts = yield post_1.Post.find().sort({ viewsCount: -1 });
-            res.json(posts);
+            const posts = yield post_1.Post.find().sort({ viewsCount: -1 }).populate('user').exec();
+            res.status(200).json(posts);
         }
-        res.status(200).json(posts);
     }
     catch (error) {
         console.log(error);
