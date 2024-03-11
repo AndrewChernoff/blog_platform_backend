@@ -47,7 +47,6 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         res.json(Object.assign(Object.assign({}, userData), { token }));
     }
     catch (error) {
-        console.log(error);
         res.status(400).json({
             message: "Couldn't register",
         });

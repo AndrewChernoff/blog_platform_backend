@@ -8,6 +8,7 @@ import multer from 'multer';
 import cors from 'cors';
 import * as AuthController from './controllers/auth-controller';
 import * as PostsController from './controllers/posts-controller';
+import * as CommentsController from './controllers/comments-controller'
 import handleValidationError from "./utils/handleValidationError";
 
 dotenv.config();
@@ -70,10 +71,9 @@ app.delete('/posts/:id', checkAuth, handleValidationError, PostsController.delet
 app.patch('/posts/:id', checkAuth, postValidation, handleValidationError, PostsController.updateOne)
 app.get('/tags', PostsController.getLastTags)
 
-
+app.post('/comments', checkAuth, CommentsController.create)
 
 const port = process.env.PORT || 4444;
-
 
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);

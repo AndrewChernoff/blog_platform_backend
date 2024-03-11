@@ -29,13 +29,6 @@ export const getAll = async(req: Request, res: Response) => {
     try {
         const sort = req.query.sort;
 
-//        const posts: any = await Post.find().populate('user').exec()
-        //const posts: any = await Post.find().populate('user', { sort: {createdAt: -1} }).exec()
-        ///  .populate('user' { sort: {createdAt: -1} }).exec()
-
-        //console.log(posts);
-        
-
         if (sort === 'new') {
             const posts = await Post.find().sort({createdAt: -1}).populate('user').exec();
 
@@ -46,10 +39,11 @@ export const getAll = async(req: Request, res: Response) => {
             const posts = await Post.find().sort({ viewsCount: -1 }).populate('user').exec();
 
             res.status(200).json(posts)
+        } else {
+            res.status(404).json({message: 'Not found'})
         }
 
     } catch (error) {
-        console.log(error);
         
         res.status(500).json({
             message: error,

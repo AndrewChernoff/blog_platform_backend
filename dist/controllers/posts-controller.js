@@ -34,10 +34,6 @@ exports.create = create;
 const getAll = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const sort = req.query.sort;
-        //        const posts: any = await Post.find().populate('user').exec()
-        //const posts: any = await Post.find().populate('user', { sort: {createdAt: -1} }).exec()
-        ///  .populate('user' { sort: {createdAt: -1} }).exec()
-        //console.log(posts);
         if (sort === 'new') {
             const posts = yield post_1.Post.find().sort({ createdAt: -1 }).populate('user').exec();
             res.status(200).json(posts);
@@ -46,9 +42,11 @@ const getAll = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             const posts = yield post_1.Post.find().sort({ viewsCount: -1 }).populate('user').exec();
             res.status(200).json(posts);
         }
+        else {
+            res.status(404).json({ message: 'Not found' });
+        }
     }
     catch (error) {
-        console.log(error);
         res.status(500).json({
             message: error,
         });

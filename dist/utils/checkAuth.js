@@ -9,7 +9,6 @@ exports.default = (req, res, next) => {
     if (token) {
         try {
             const decoded = jsonwebtoken_1.default.verify(token, 'secret');
-            console.log(decoded);
             req.params.userId = decoded._id;
             next();
         }

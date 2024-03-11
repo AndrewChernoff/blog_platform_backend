@@ -36,6 +36,7 @@ const multer_1 = __importDefault(require("multer"));
 const cors_1 = __importDefault(require("cors"));
 const AuthController = __importStar(require("./controllers/auth-controller"));
 const PostsController = __importStar(require("./controllers/posts-controller"));
+const CommentsController = __importStar(require("./controllers/comments-controller"));
 const handleValidationError_1 = __importDefault(require("./utils/handleValidationError"));
 dotenv_1.default.config();
 const DB_adress = process.env.MONGO_DBCONNECT_URI;
@@ -82,6 +83,7 @@ app.get('/posts/:id', /* checkAuth, */ handleValidationError_1.default, PostsCon
 app.delete('/posts/:id', checkAuth_1.default, handleValidationError_1.default, PostsController.deleteOne);
 app.patch('/posts/:id', checkAuth_1.default, registerValidation_1.postValidation, handleValidationError_1.default, PostsController.updateOne);
 app.get('/tags', PostsController.getLastTags);
+app.post('/comments', checkAuth_1.default, CommentsController.create);
 const port = process.env.PORT || 4444;
 app.listen(port, () => {
     console.log(`[server]: Server is running at http://localhost:${port}`);
