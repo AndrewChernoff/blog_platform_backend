@@ -13,7 +13,6 @@ const PostSchema = new mongoose_1.default.Schema({
     text: {
         type: String,
         required: true,
-        //unique: true
     },
     tags: {
         type: Array,

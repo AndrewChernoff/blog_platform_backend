@@ -74,7 +74,8 @@ app.delete('/posts/:id', checkAuth, handleValidationError, PostsController.delet
 app.patch('/posts/:id', checkAuth, postValidation, handleValidationError, PostsController.updateOne)
 app.get('/tags', PostsController.getLastTags)
 
-app.post('/comments', checkAuth, CommentsController.create)
+app.get('/comments/:postId', CommentsController.getAll)
+app.post('/comments/:postId', checkAuth, CommentsController.create)
 
 const port = process.env.PORT || 4444;
 
