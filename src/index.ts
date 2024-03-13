@@ -52,7 +52,7 @@ app.use('/uploads', express.static('uploads'))
 app.post("/upload", upload.single('image'), (req: Request, res: Response) => {
   if(req.file) {
   return res.status(200).json({
-    url: /* `/${req.file.path}` */`/uploads/${req.file.originalname}`
+    url: `/${req.file.path}`/* `/uploads/${req.file.originalname}` */
   })
   } else {
     return res.status(500)

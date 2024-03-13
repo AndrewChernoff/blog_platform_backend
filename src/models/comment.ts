@@ -9,11 +9,15 @@ const CommentSchema = new mongoose.Schema({
     type: String,
     requeired: true,
   },
-  userId: {
+  /* userId: {
     type: String,
     requeired: true,
-  },
-
+  }, */
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  }
 }, {
     timestamps: true,
 });

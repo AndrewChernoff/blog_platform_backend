@@ -14,10 +14,15 @@ const CommentSchema = new mongoose_1.default.Schema({
         type: String,
         requeired: true,
     },
-    userId: {
-        type: String,
-        requeired: true,
-    },
+    /* userId: {
+      type: String,
+      requeired: true,
+    }, */
+    user: {
+        type: mongoose_1.default.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    }
 }, {
     timestamps: true,
 });

@@ -14,8 +14,8 @@ const comment_1 = require("../models/comment");
 const post_1 = require("../models/post");
 const getAll = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const comment = yield comment_1.Comment.find({ postId: req.params.postId });
-        res.status(200).json(comment);
+        const comments = yield comment_1.Comment.find({ postId: req.params.postId }).populate('user').exec();
+        res.status(200).json(comments);
     }
     catch (error) {
         res.status(500).json({
@@ -29,7 +29,8 @@ const create = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const doc = new comment_1.Comment({
             text: req.body.text,
             postId: req.params.postId,
-            userId: req.params.userId
+            //userId: req.params.userId,
+            user: req.params.userId
         });
         const comment = yield doc.save();
         yield post_1.Post.findOneAndUpdate({
