@@ -76,7 +76,7 @@ app.get('/tags', PostsController.getLastTags)
 
 app.get('/comments/:postId', CommentsController.getAll)
 app.post('/comments/:postId', checkAuth, CommentsController.create)
-app.delete('/comments/:postId', checkAuth, CommentsController.deleteComment)
+app.delete('/comments/:commentId', checkAuth, CommentsController.deleteComment)
 
 const port = process.env.PORT || 4444;
 

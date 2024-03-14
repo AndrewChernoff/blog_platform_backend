@@ -50,7 +50,7 @@ export const deleteComment = async(req: Request, res: Response) => {
     try {
          await Comment.findOneAndDelete(
             {
-                _id: req.params.postId
+                _id: req.params.commentId
             }
         )
         

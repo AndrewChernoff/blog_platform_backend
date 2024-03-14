@@ -52,7 +52,7 @@ exports.create = create;
 const deleteComment = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield comment_1.Comment.findOneAndDelete({
-            _id: req.params.postId
+            _id: req.params.commentId
         });
         res.status(200).json({ success: true });
     }
