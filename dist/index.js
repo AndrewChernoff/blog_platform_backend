@@ -80,14 +80,15 @@ app.get("/", (req, res) => {
 app.post("/auth/register", registerValidation_1.registerValidation, handleValidationError_1.default, AuthController.register);
 app.post("/auth/login", registerValidation_1.logInValidation, handleValidationError_1.default, AuthController.login);
 app.get('/auth/me', checkAuth_1.default, AuthController.getMe);
-app.get('/posts', /* checkAuth, */ PostsController.getAll);
+app.get('/posts', PostsController.getAll);
 app.post('/posts', checkAuth_1.default, registerValidation_1.postValidation, handleValidationError_1.default, PostsController.create);
-app.get('/posts/:id', /* checkAuth, */ handleValidationError_1.default, PostsController.getOne);
+app.get('/posts/:id', handleValidationError_1.default, PostsController.getOne);
 app.delete('/posts/:id', checkAuth_1.default, handleValidationError_1.default, PostsController.deleteOne);
 app.patch('/posts/:id', checkAuth_1.default, registerValidation_1.postValidation, handleValidationError_1.default, PostsController.updateOne);
 app.get('/tags', PostsController.getLastTags);
 app.get('/comments/:postId', CommentsController.getAll);
 app.post('/comments/:postId', checkAuth_1.default, CommentsController.create);
+app.delete('/comments/:postId', checkAuth_1.default, CommentsController.deleteComment);
 const port = process.env.PORT || 4444;
 app.listen(port, () => {
     console.log(`[server]: Server is running at http://localhost:${port}`);

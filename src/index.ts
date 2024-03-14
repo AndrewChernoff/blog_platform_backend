@@ -67,15 +67,16 @@ app.post("/auth/register", registerValidation, handleValidationError, AuthContro
 app.post("/auth/login", logInValidation, handleValidationError, AuthController.login)
 app.get('/auth/me', checkAuth, AuthController.getMe)
 
-app.get('/posts', /* checkAuth, */ PostsController.getAll)
+app.get('/posts', PostsController.getAll)
 app.post('/posts', checkAuth, postValidation, handleValidationError, PostsController.create)
-app.get('/posts/:id', /* checkAuth, */ handleValidationError, PostsController.getOne)
+app.get('/posts/:id', handleValidationError, PostsController.getOne)
 app.delete('/posts/:id', checkAuth, handleValidationError, PostsController.deleteOne)
 app.patch('/posts/:id', checkAuth, postValidation, handleValidationError, PostsController.updateOne)
 app.get('/tags', PostsController.getLastTags)
 
 app.get('/comments/:postId', CommentsController.getAll)
 app.post('/comments/:postId', checkAuth, CommentsController.create)
+app.delete('/comments/:postId', checkAuth, CommentsController.deleteComment)
 
 const port = process.env.PORT || 4444;
 

@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.create = exports.getAll = void 0;
+exports.deleteComment = exports.create = exports.getAll = void 0;
 const comment_1 = require("../models/comment");
 const post_1 = require("../models/post");
 const getAll = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -29,10 +29,10 @@ const create = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const doc = new comment_1.Comment({
             text: req.body.text,
             postId: req.params.postId,
-            //userId: req.params.userId,
             user: req.params.userId
         });
-        const comment = yield doc.save();
+        let comment = yield doc.save()
+            .then(c => c.populate('user')).then(c => c);
         yield post_1.Post.findOneAndUpdate({
             _id: req.params.postId,
         }, {
@@ -49,3 +49,17 @@ const create = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.create = create;
+const deleteComment = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield comment_1.Comment.findOneAndDelete({
+            _id: req.params.postId
+        });
+        res.status(200).json({ success: true });
+    }
+    catch (error) {
+        res.status(500).json({
+            message: error,
+        });
+    }
+});
+exports.deleteComment = deleteComment;

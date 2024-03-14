@@ -145,6 +145,7 @@ export const getLastTags = async(req: Request, res: Response) => {
         const posts: any = await Post.find().limit(5).exec()
         
         const tags = posts.map((obj: { tags: any; }) => obj.tags).flat().slice(0, 5)
+        
         res.json(tags)
     } catch (error) {
         console.log(error);

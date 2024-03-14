@@ -3,7 +3,6 @@ import { Comment } from "../models/comment"
 import { Post } from "../models/post"
 
 export const getAll = async(req: Request, res: Response) => {
-
     try {
        const comments = await Comment.find({postId: req.params.postId}).populate('user').exec();
 
@@ -14,17 +13,17 @@ export const getAll = async(req: Request, res: Response) => {
           });
     }
 }
-export const create = async(req: Request, res: Response) => {
 
+export const create = async(req: Request, res: Response) => {
     try {
         const doc = new Comment({
             text: req.body.text,
             postId: req.params.postId,
-            //userId: req.params.userId,
             user: req.params.userId
         })
 
-        const comment = await doc.save()
+        let comment = await doc.save()
+        .then(c => c.populate('user')).then(c => c)
         
         await Post.findOneAndUpdate(
             {
@@ -35,10 +34,28 @@ export const create = async(req: Request, res: Response) => {
             }, 
             {
                 new: true
-              }
+            }
             )
         
         res.status(200).json(comment)
+
+    } catch (error) {        
+        res.status(500).json({
+            message: error,
+          });
+    }
+}
+
+export const deleteComment = async(req: Request, res: Response) => {
+    try {
+         await Comment.findOneAndDelete(
+            {
+                _id: req.params.postId
+            }
+        )
+        
+        res.status(200).json({success: true})
+
     } catch (error) {        
         res.status(500).json({
             message: error,
