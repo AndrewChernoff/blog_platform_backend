@@ -51,8 +51,21 @@ const create = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.create = create;
 const deleteComment = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        const authUserId = req.params.userId;
+        const userId = req.body.userId; ///
+        const postId = req.body.postId;
+        const commentId = req.params.commentId;
+        if (authUserId !== userId) {
+            return res.status(400).json({ message: "Can't delete the comment" });
+        }
+        if (!postId || !commentId) {
+            return res.status(404).json({ message: "Could't delete the comment" });
+        }
         yield comment_1.Comment.findOneAndDelete({
             _id: req.params.commentId
+        });
+        yield post_1.Post.findOneAndUpdate({ _id: postId }, { $inc: { commentsCount: -1 } }, {
+            new: true,
         });
         res.status(200).json({ success: true });
     }

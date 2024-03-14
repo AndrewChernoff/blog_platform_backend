@@ -48,11 +48,32 @@ export const create = async(req: Request, res: Response) => {
 
 export const deleteComment = async(req: Request, res: Response) => {
     try {
-         await Comment.findOneAndDelete(
+        const authUserId = req.params.userId
+        const userId = req.body.userId ///
+        const postId = req.body.postId
+        const commentId = req.params.commentId
+        
+        if (authUserId !== userId) {
+            return res.status(400).json({message: "Can't delete the comment"})
+        }
+
+        if(!postId || !commentId) {
+            return res.status(404).json({message: "Could't delete the comment"})
+        }
+
+        await Comment.findOneAndDelete(
             {
                 _id: req.params.commentId
             }
         )
+
+        await Post.findOneAndUpdate(
+          { _id: postId },
+          { $inc: {commentsCount: -1} },
+          {
+            new: true,
+          }
+        );
         
         res.status(200).json({success: true})
 
