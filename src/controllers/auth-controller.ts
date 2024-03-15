@@ -35,7 +35,7 @@ export const register =  async (req: Request, res: Response) => {
       res.json({...userData, token});
     
     } catch (error) {
-      res.status(400).json({
+      res.status(500).json({
         message: "Couldn't register",
       });
     }
