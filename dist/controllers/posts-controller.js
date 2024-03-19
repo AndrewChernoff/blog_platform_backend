@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getLastTags = exports.updateOne = exports.deleteOne = exports.getOne = exports.getAll = exports.create = void 0;
+exports.getLastTags = exports.updateOne = exports.deleteOne = exports.getByTagName = exports.getOne = exports.getAll = exports.create = void 0;
 const post_1 = require("../models/post");
 const create = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -75,6 +75,22 @@ const getOne = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getOne = getOne;
+const getByTagName = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const tagName = req.params.tagName;
+        const posts = yield post_1.Post.find({ tags: { $in: [tagName] } }).populate('user');
+        if (posts.length === 0) {
+            return res.status(404).send({ message: "Posts are not found" });
+        }
+        return res.status(200).send(posts);
+    }
+    catch (error) {
+        res.status(500).json({
+            message: error,
+        });
+    }
+});
+exports.getByTagName = getByTagName;
 const deleteOne = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const postId = req.params.id;

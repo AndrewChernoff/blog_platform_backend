@@ -79,6 +79,24 @@ export const getOne = async(req: Request, res: Response) => {
     }
 }
 
+export const getByTagName = async (req: Request, res: Response) => {
+    try {
+      const tagName = req.params.tagName;
+
+      const posts = await Post.find({ tags: { $in: [tagName] } }).populate('user');
+  
+      if (posts.length === 0) {
+        return res.status(404).send({ message: "Posts are not found" });
+      }
+  
+      return res.status(200).send(posts);
+    } catch (error) {
+      res.status(500).json({
+        message: error,
+      });
+    }
+};  
+
 export const deleteOne = async(req: Request, res: Response) => {
     try {
         
